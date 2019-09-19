@@ -1,0 +1,6 @@
+flake8:
+  enabled: false
+
+pylint:
+  enabled: true
+  config_file: .pylintrc
