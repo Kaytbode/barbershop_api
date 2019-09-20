@@ -1,2 +1,5 @@
 # editor configuration for pylint
 .vscode
+
+# sacred
+.env
