@@ -3,4 +3,7 @@ python-coveralls
 pytest-cov
 python-dotenv
 flask
-flask_sqlalchemy
+flask-sqlalchemy
+flask-migrate
+psycopg2
+gunicorn
