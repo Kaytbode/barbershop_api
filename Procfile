@@ -1,1 +1,1 @@
-web: gunicorn src:build_app()
+web: gunicorn src:'build_app()'
