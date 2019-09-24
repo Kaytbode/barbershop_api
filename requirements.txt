@@ -1,0 +1,8 @@
+pytest
+python-coveralls
+pytest-cov
+python-dotenv
+flask
+flask-sqlalchemy
+flask-migrate
+gunicorn

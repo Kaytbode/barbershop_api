@@ -1,0 +1,330 @@
+swagger: '2.0'
+info:
+  description: A simple API that provides haircut services.
+  version: 1.0.0
+  title: Barbershop
+  contact:
+    email: bkaoluborode@gmail.com
+
+tags:
+- name: barbers
+  description: Professional barbers
+- name: services
+  description: haircut services rendered to customers
+
+paths:
+  /api/v1/auth/signup:
+    post:
+      tags:
+        - barbers
+      summary: Barbers can register
+      description: |
+         By providing an email and password, barbers can register
+         to use the application 
+      produces:
+        - application/json
+      parameters:
+        - name: barber
+          in: body
+          description: creates a new barber in our database
+          schema:
+            type: object 
+            required:
+              - email
+              - password
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        201:
+          description: user created
+          schema:
+            $ref: '#/definitions/authentication'
+        400:
+          description: bad input parameter
+  
+  /api/v1/auth/signin:
+    post:
+      tags:
+        - barbers
+      summary: Barbers can sign in to application
+      description: |
+         By providing an email and password, barbers can sign in
+         to the application 
+      produces:
+        - application/json
+      parameters:
+        - name: barber
+          in: body
+          description: finds barber in database
+          schema:
+            type: object 
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: successful response
+          schema:
+            $ref: '#/definitions/authentication'
+        401:
+          description: unauthorized user
+        400:
+          description: bad input parameter
+  
+  /api/v1/services/start:
+    post:
+      tags:
+        - services
+      summary: adds a service
+      description: informs application about the start of a service
+      produces:
+        - application/json
+      parameters:
+        - name: service
+          in: body
+          description: creates a new service in the database
+          schema:
+            type: object 
+            required:
+              - customer
+              - location
+              - barber
+              - date
+              - start
+            properties:
+              customer:
+                type: string
+              location:
+                type: string
+              barber:
+                type: string
+              date:
+                type: string
+              start:
+                type: string
+      responses:
+        201:
+          description: service created
+          schema:
+            $ref: '#/definitions/start'
+        400:
+          description: bad input parameter
+
+  /api/v1/services/stop:
+      patch:
+        tags:
+          - services
+        summary: updates a service in the application
+        description: informs application about the end of a service
+        produces:
+          - application/json
+        parameters:
+          - name: service
+            in: body
+            description: updates a service in the database
+            schema:
+              type: object 
+              required:
+                - id
+                - stop
+                - duration
+                - status
+              properties:
+                id:
+                  type: string
+                stop:
+                  type: string
+                duration:
+                  type: string
+                status:
+                  type: string
+        responses:
+          200:
+            description: successful response
+            schema:
+              $ref: '#/definitions/stop'
+          400:
+            description: bad input parameter
+
+  /api/v1/services/current:
+      get:
+        tags:
+          - services
+        summary: shows all current services
+        description: shows services still being offered
+        produces:
+          - application/json
+        responses:
+          200:
+            description: successful response
+            schema:
+              $ref: '#/definitions/current_services'
+          400:
+            description: bad input parameter
+
+  /api/v1/services/offered:
+      get:
+        tags:
+          - services
+        summary: shows all rendered services
+        description: shows services already offered
+        produces:
+          - application/json
+        responses:
+          200:
+            description: successful response
+            schema:
+              $ref: '#/definitions/services'
+          400:
+            description: bad input parameter
+  
+  /api/v1/services/current/{barber}:
+      get:
+        tags:
+          - services
+        summary: shows current service of a barber
+        description: shows services still being offered
+        produces:
+          - application/json
+        parameters:
+          - name: barber
+            in: path
+            description: current service of specified barber
+            required: true
+            type: string
+        responses:
+          200:
+            description: successful response
+            schema:
+              $ref: '#/definitions/current_services'
+          401:
+            description: unauthorized user
+          400:
+            description: bad input parameter
+  
+  /api/v1/services/offered/{barber}:
+      get:
+        tags:
+          - services
+        summary: shows all services offered by a barber
+        description: shows services already offered
+        produces:
+          - application/json
+        parameters:
+          - name: barber
+            in: path
+            description: services of specified barber
+            required: true
+            type: string
+        responses:
+          200:
+            description: successful response
+            schema:
+              $ref: '#/definitions/services'
+          401:
+            description: unauthorized user
+          400:
+            description: bad input parameter
+
+definitions:
+  authentication:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+        properties:
+          email:
+            type: string
+          id:
+            type: string
+          token:
+            type: string
+  start:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: string
+  stop:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+        properties:
+          status:
+            type: string
+          duration:
+            type: string
+  services:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          type: object
+          required:
+            - username
+          properties:
+            barber:
+              type: string
+            customer:
+              type: string
+            location:
+              type: string
+            start:
+              type: string
+            stop:
+              type: string
+            duration:
+              type: string
+            status:
+              type: string
+  current_services:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          type: object
+          required:
+            - username
+          properties:
+            barber:
+              type: string
+            customer:
+              type: string
+            location:
+              type: string
+            start:
+              type: string
+            status:
+              type: string
+
+schemes:
+  - https
+
+        
