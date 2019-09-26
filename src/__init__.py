@@ -4,7 +4,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask
+from flask_graphql import GraphQLView
 from src.database.models import db, migrate
+from src.schema import schema
 
 ENV_PATH = Path('.') / '.env'
 load_dotenv(dotenv_path=ENV_PATH)
@@ -21,8 +23,13 @@ def build_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    @app.route('/')
-    def hello(): # pylint: disable=unused-variable
-        return 'Hello, World!'
+    app.add_url_rule(
+        '/graphql',
+        view_func=GraphQLView.as_view(
+            'graphql',
+            schema=schema,
+            graphiql=True # for having the GraphiQL interface
+        )
+    )
 
     return app
