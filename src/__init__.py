@@ -1,4 +1,5 @@
 """ flask factory module """
+# pylint: disable=invalid-name
 import os
 
 from pathlib import Path
@@ -11,7 +12,7 @@ from src.schema import schema
 ENV_PATH = Path('.') / '.env'
 load_dotenv(dotenv_path=ENV_PATH)
 
-def build_app():
+def build_app(TestConfig=None):
     """ flask factory """
     app = Flask(__name__)
     app.config.from_mapping(
@@ -19,6 +20,9 @@ def build_app():
         SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
+
+    if TestConfig is not None:
+        app.config.from_object(TestConfig)
 
     db.init_app(app)
     migrate.init_app(app, db)
