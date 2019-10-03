@@ -72,6 +72,6 @@ class CreateBarber(relay.ClientIDMutation):
 
         return CreateBarber(barber=barber)
 
-class BarberMutation(graphene.AbstractType):
+class BarberMutation(graphene.ObjectType):
     ''' Insert barber into the database '''
     create_barber = CreateBarber.Field()
