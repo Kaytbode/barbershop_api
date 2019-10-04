@@ -67,6 +67,7 @@ class CreateBarber(relay.ClientIDMutation):
             first_name=input.get('first_name'),
             last_name=input.get('last_name'),
             password=generate_password_hash(input.get('password')),
+            status='user'
         )
 
         barber.save_barber()
