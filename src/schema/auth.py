@@ -38,4 +38,4 @@ class VerifyBarberMutation(relay.ClientIDMutation):
 
 
 class AuthMutation(graphene.ObjectType):
-    auth = VerifyBarberMutation.Field()
+    verify_barber = VerifyBarberMutation.Field()

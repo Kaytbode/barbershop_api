@@ -18,10 +18,7 @@ def build_app(TestConfig=None):
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY') or 'barber_dev_key',
         SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL'),
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        JWT_SECRET_KEY=os.getenv('JWT_SECRET_KEY'),
-        REFRESH_EXP_LENGTH=30,
-        ACCESS_EXP_LENGTH=20
+        SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
 
     if TestConfig is not None:
