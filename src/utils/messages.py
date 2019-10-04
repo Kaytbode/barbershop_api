@@ -7,3 +7,5 @@ error_messages = {
     'invalid-email': 'Email address format is not correct',
     'password-mismatch': 'Passwords do not match'
 }
+
+Unauthorized = 'Wrong email or password'

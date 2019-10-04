@@ -4,19 +4,22 @@
 # pylint: disable=too-few-public-methods
 from . import db
 
+
 class Barber(db.Model):
     """ Barber table model """
     email = db.Column(db.String(50), primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.Text(), nullable=False)
+    status = db.Column(db.String(12), default='user')
 
     def save_barber(self):
         barber = Barber(
             email=self.email,
             first_name=self.first_name,
             last_name=self.last_name,
-            password=self.password
+            password=self.password,
+            status=self.status
         )
 
         db.session.add(barber)

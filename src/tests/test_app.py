@@ -1,23 +1,14 @@
-''' Authentication test module '''
-# pylint: disable=too-few-public-methods
+''' Registeration test module '''
 # pylint: disable=redefined-outer-name
+# pylint: disable=unused-import
 # pylint: disable=unused-argument
-import os
 import pytest
 
 from graphene.test import Client
-from ..schema import schema
 from .. import build_app
 from ..database.models import db as _db
-
-class TestConfig():
-    """ Database test configuration """
-    DEBUG = True
-    SECRET_KEY = 'barber_dev_key'
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DB')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    TESTING = True
-
+from ..schema import schema
+from . import TestConfig
 
 @pytest.fixture(scope='session')
 def app():
@@ -26,11 +17,11 @@ def app():
     ctx = _app.app_context()
     ctx.push()
 
-    _db.create_all()
+    _db.drop_all()
+    _db.create_all() 
 
     yield _app
 
-    _db.drop_all()
     ctx.pop()
 
 @pytest.fixture(scope='session')
@@ -40,7 +31,7 @@ def testapp(app):
 
 
 def test_registration(testapp):
-    """ Registration test """
+    """ Successful Registration test """
     client = Client(schema)
     executed = client.execute(
         '''
@@ -64,6 +55,37 @@ def test_registration(testapp):
     assert executed == {
         "data": {
             "createBarber": {
+                "barber": {
+                    "email": "abced@yahoo.com",
+                    "firstName": "abc",
+                    "lastName": "xyz"
+                }
+            }
+        }
+    }
+
+def test_login(testapp):
+    """ Successful login test """
+    client = Client(schema)
+    executed = client.execute(
+        '''
+        mutation{
+            verifyBarber(input: {
+                email:"abced@yahoo.com",
+                password: "u9j2ieor"
+            }){
+                barber{
+                    email,
+                    firstName,
+                    lastName,
+                }
+            }
+        }
+        '''
+    )
+    assert executed == {
+        "data": {
+            "verifyBarber": {
                 "barber": {
                     "email": "abced@yahoo.com",
                     "firstName": "abc",
