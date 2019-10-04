@@ -22,10 +22,11 @@ class BarberConnection(relay.Connection):
     class Meta:
         node = Barber
 
-
 class BarberQuery(graphene.ObjectType):
     ''' Query barber table in database '''
     node = relay.Node.Field()
+
+    barber = relay.Node.Field(Barber)
 
     all_barbers = SQLAlchemyConnectionField(BarberConnection, sort=None)
 
@@ -71,6 +72,7 @@ class CreateBarber(relay.ClientIDMutation):
         barber.save_barber()
 
         return CreateBarber(barber=barber)
+
 
 class BarberMutation(graphene.ObjectType):
     ''' Insert barber into the database '''

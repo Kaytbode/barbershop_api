@@ -10,3 +10,4 @@ graphene
 graphene_sqlalchemy
 flask_graphql
 psycopg2
+
