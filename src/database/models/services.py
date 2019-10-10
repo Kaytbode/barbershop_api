@@ -29,15 +29,10 @@ class Service(db.Model):
         db.session.commit()
 
     @staticmethod
-    def update_service(service_input):
-        service = Service.query.get(service_input.get('barber_email'))
+    def get_service(service_id):
+        service = Service.query.get(service_id)
 
-        service.stop = service_input.get('stop')
-        service.duration = service_input.get('duration')
-        service.fee = service_input.get('fee')
-        service.status = service_input.get('status')
-
-        db.session.commit()
+        return service
 
     def __repr__(self):
         return '<Service: {}>'.format(self.name)

@@ -9,3 +9,4 @@ error_messages = {
 }
 
 Unauthorized = 'Wrong email or password'
+invalid_id = 'Please input the correct id'
