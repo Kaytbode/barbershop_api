@@ -1,5 +1,6 @@
 """ flask factory module """
 # pylint: disable=invalid-name
+# pylint: disable=unused-import
 import os
 
 from pathlib import Path
@@ -25,6 +26,9 @@ def build_app(TestConfig=None):
         app.config.from_object(TestConfig)
 
     db.init_app(app)
+    from src.database.models.barbers import Barber
+    from src.database.models.services import Service
+
     migrate.init_app(app, db)
 
     app.add_url_rule(

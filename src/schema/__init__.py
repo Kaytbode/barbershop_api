@@ -5,11 +5,12 @@
 import graphene
 from .barber import BarberQuery, BarberMutation
 from .auth import AuthMutation
+from .service import ServiceMutation
 
 class Query(BarberQuery, graphene.ObjectType):
     pass
 
-class Mutation(BarberMutation, AuthMutation, graphene.ObjectType):
+class Mutation(BarberMutation, AuthMutation, ServiceMutation, graphene.ObjectType):
     pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
