@@ -94,3 +94,62 @@ def test_login(testapp):
             }
         }
     }
+
+def test_add_service(testapp):
+    """ Successfully add service to the database"""
+    client = Client(schema)
+    executed = client.execute(
+        '''
+        mutation{
+            createService(input: {
+                barberEmail:"abced@yahoo.com",
+                customer: "flip burger"
+            }){
+                service{
+                    customer,
+                    status
+                }
+            }
+        }
+        '''
+    )
+    assert executed == {
+        "data": {
+            "createService": {
+                "service": {
+                    "customer": "flip burger",
+                    "status": "current"
+                }
+            }
+        }
+    }
+
+def test_update_service(testapp):
+    """ Successfully update service in the database"""
+    client = Client(schema)
+    executed = client.execute(
+        '''
+        mutation{
+            updateService(input: {
+                serviceId:"1",
+            }){
+                service{
+                    customer,
+                    status,
+                    serviceId
+                }
+            }
+        }
+        '''
+    )
+    assert executed == {
+        "data": {
+            "updateService": {
+                "service": {
+                    "customer": "flip burger",
+                    "status": "done",
+                    "serviceId": "1",
+                }
+            }
+        }
+    }
