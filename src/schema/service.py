@@ -72,11 +72,11 @@ class UpdateService(relay.ClientIDMutation):
     service = graphene.Field(Service)
 
     class Input:
-        id = graphene.String()
+        service_id = graphene.String()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        service_id = input.get('id')
+        service_id = input.get('service_id')
         id_arr = validate_id(service_id)
 
         if not id_arr[0]:
@@ -90,7 +90,7 @@ class UpdateService(relay.ClientIDMutation):
 
         fee = duration * int((os.getenv('FEE')))
 
-        service.id = service_id
+        service.service_id = service_id
         service.stop = stop
         service.duration = duration
         service.fee = '{}'.format(fee)

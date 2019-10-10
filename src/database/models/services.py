@@ -6,7 +6,7 @@ from . import db
 
 class Service(db.Model):
     """ Service table model """
-    id = db.Column(db.Integer, primary_key=True)
+    service_id = db.Column(db.Integer, primary_key=True)
     customer = db.Column(db.String(50), nullable=False)
     location = db.Column(db.Text(), nullable=False)
     barber = db.Column(db.String, db.ForeignKey('barber.email'), nullable=False)
