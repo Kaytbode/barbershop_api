@@ -12,7 +12,7 @@ A Graphql API for a haircut services application
 + ``` Create a postgres database to be used with the application ```
 + ``` Register with ipstack for a free API KEY ```
 + ``` Create a .env file, using the .env.sample as a guide ```
-+ Start the application running the command ```flask run``` on your terminal
++ Start the application using the command ```flask run```
 
 ## Examples
 
@@ -120,7 +120,7 @@ Response from adding a service to the database
     }
 }
 ```
-Besides the response parameters specified in the examples, You can add more parameters to be returned by your **query** or **mutation**. [Here](https://graphql.org/), for more on graphql.
+Besides the response parameters specified in the examples, You can add more parameters to be returned by your **query** or **mutation**. Check [Here](https://graphql.org/), for more on graphql.
 
 ## Built With
 + [Flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/factory/) 
