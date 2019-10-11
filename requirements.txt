@@ -11,4 +11,5 @@ graphene_sqlalchemy
 flask_graphql
 psycopg2
 geopy
+flask-cors
 

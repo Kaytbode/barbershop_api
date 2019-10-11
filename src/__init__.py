@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from flask_graphql import GraphQLView
 from src.database.models import db, migrate
 from src.schema import schema
@@ -21,6 +22,8 @@ def build_app(TestConfig=None):
         SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
+
+    CORS(app)
 
     if TestConfig is not None:
         app.config.from_object(TestConfig)
