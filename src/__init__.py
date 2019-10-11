@@ -1,14 +1,20 @@
 """ flask factory module """
+# pylint: disable=invalid-name
+# pylint: disable=unused-import
 import os
 
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
+from flask_graphql import GraphQLView
+from src.database.models import db, migrate
+from src.schema import schema
 
 ENV_PATH = Path('.') / '.env'
 load_dotenv(dotenv_path=ENV_PATH)
 
-def build_app():
+def build_app(TestConfig=None):
     """ flask factory """
     app = Flask(__name__)
     app.config.from_mapping(
@@ -17,8 +23,24 @@ def build_app():
         SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
 
-    @app.route('/')
-    def hello(): # pylint: disable=unused-variable
-        return 'Hello, World!'
+    CORS(app)
+
+    if TestConfig is not None:
+        app.config.from_object(TestConfig)
+
+    db.init_app(app)
+    from src.database.models.barbers import Barber
+    from src.database.models.services import Service
+
+    migrate.init_app(app, db)
+
+    app.add_url_rule(
+        '/graphql',
+        view_func=GraphQLView.as_view(
+            'graphql',
+            schema=schema,
+            graphiql=True # for having the GraphiQL interface
+        )
+    )
 
     return app

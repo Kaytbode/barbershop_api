@@ -6,3 +6,10 @@ flask
 flask-sqlalchemy
 flask-migrate
 gunicorn
+graphene
+graphene_sqlalchemy
+flask_graphql
+psycopg2
+geopy
+flask-cors
+
