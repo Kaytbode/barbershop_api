@@ -44,6 +44,8 @@ class CreateService(relay.ClientIDMutation):
     class Input:
         customer = graphene.String()
         barber_email = graphene.String()
+        latitude = graphene.String()
+        longitude = graphene.String()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
@@ -58,7 +60,7 @@ class CreateService(relay.ClientIDMutation):
 
         service = Service_Model(
             customer=input.get('customer'),
-            location=get_address(),
+            location=get_address(input.get('latitude'), input.get('longitude')),
             barber=input.get('barber_email'),
             start=datetime.now(),
             status='current'
