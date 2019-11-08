@@ -5,9 +5,9 @@
 import graphene
 from .barber import BarberQuery, BarberMutation
 from .auth import AuthMutation
-from .service import ServiceMutation
+from .service import ServiceQuery, ServiceMutation
 
-class Query(BarberQuery, graphene.ObjectType):
+class Query(BarberQuery, ServiceQuery, graphene.ObjectType):
     pass
 
 class Mutation(BarberMutation, AuthMutation, ServiceMutation, graphene.ObjectType):
