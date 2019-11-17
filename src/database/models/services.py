@@ -29,8 +29,8 @@ class Service(db.Model):
         db.session.commit()
 
     @staticmethod
-    def get_service(service_id):
-        service = Service.query.get(service_id)
+    def get_service(start):
+        service = Service.query.get(start)
 
         return service
 
