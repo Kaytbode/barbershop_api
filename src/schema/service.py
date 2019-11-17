@@ -93,7 +93,6 @@ class UpdateService(relay.ClientIDMutation):
 
         fee = duration * int((os.getenv('FEE')))
 
-        service.service_id = service_id
         service.stop = stop
         service.duration = duration
         service.fee = '{}'.format(fee)
