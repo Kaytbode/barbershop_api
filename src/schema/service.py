@@ -74,18 +74,13 @@ class UpdateService(relay.ClientIDMutation):
     service = graphene.Field(Service)
 
     class Input:
-        start = graphene.String()
-        barber = graphene.String()
+        service_id = graphene.String()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        barber = input.get('barber')
-        start = input.get('start')
+        service_id = input.get('service_id')
 
-        service = Service_Model.get_service(start)
-
-        if service.barber != barber:
-            raise Exception('Wrong Barber')
+        service = Service_Model.get_service(service_id)
 
         stop = datetime.now()
         time_difference = stop - service.start
@@ -93,6 +88,7 @@ class UpdateService(relay.ClientIDMutation):
 
         fee = duration * int((os.getenv('FEE')))
 
+        service.service_id = service_id
         service.stop = stop
         service.duration = duration
         service.fee = '{}'.format(fee)
